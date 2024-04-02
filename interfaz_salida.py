@@ -5,22 +5,22 @@ from PIL import ImageTk, Image
 import dinamico
 import voraz
 import fuerza_bruta
-import Interfaz
-import read_file
+import interfaz_entrada
+from generales import finca_string, finca
 
 ruta_archivo = None
 def generarSalida(finca):
-    if Interfaz.select_var.get() == 'Dinamico':
-        programacion = dinamico.dinamico(finca)
+    if interfaz_entrada.select_var.get() == 'Dinamico':
+        programacion = dinamico.roPD(finca)
         nombre_archivo = 'outputDynamic.txt'
         costo_solucion = dinamico.calcular_costo_total(programacion)
-        dinamico.finca_string(programacion)
-    elif Interfaz.select_var.get() == 'Voraz':
-        programacion = voraz.voraz(finca)
+        finca_string(programacion)
+    elif interfaz_entrada.select_var.get() == 'Voraz':
+        programacion = voraz.roV(finca)
         costo_solucion = voraz.calcular_costo_total(programacion)
         nombre_archivo = 'outputGreedy.txt'
-    elif Interfaz.select_var.get() == 'Fuerza_Bruta':
-        costo_solucion, programacion = fuerza_bruta.calcular_costo_minimo(finca)
+    elif interfaz_entrada.select_var.get() == 'Fuerza_Bruta':
+        costo_solucion, programacion = fuerza_bruta.roFB(finca)
         nombre_archivo = 'outputBruteForce.txt'
 
     carpeta_salida = "./resultados/"
@@ -40,11 +40,11 @@ def generarSalida(finca):
         # Escribir las posiciones en el archivo
         for elem in programacion:
             posicion = finca.index(elem)
-            if Interfaz.select_var.get() == 'dinamico':
+            if interfaz_entrada.select_var.get() == 'dinamico':
                 finca[posicion] = []
             archivo.write(str(posicion) + '\n')
         
-generarSalida(read_file.finca)
+generarSalida(finca)
 ventana = tk.Tk()
 ventana.title("Optimizar un sistema de riego")
 ventana.configure(bg="#7FBF50")
@@ -65,7 +65,7 @@ font_text = ("Times New Roman", 16, "bold", "italic")
 font_button = ("Times New Roman", 12, "bold")
 
 def mostrar_resultado():
-    mensaje = f"Resultados obtenidos de {Interfaz.select_var.get()}"
+    mensaje = f"Resultados obtenidos de {interfaz_entrada.select_var.get()}"
     label_bienvenida.config(text=mensaje)
 
 # Cargar el contenido del archivo en el widget de texto

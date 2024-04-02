@@ -1,25 +1,6 @@
-#ALGORTIMO VORAZ #3
-# CALCULANDO COSTOS DE MANERA DINAMICA #2
+from generales import calcular_costo_total
 
-def calcular_costo_por_tablon(tablon,tiempo_transcurrido):
-  tiempo_supervivencia = tablon[0]
-  tiempo_riego = tablon[1]
-  prioridad = tablon[2]
-  if (tiempo_supervivencia - tiempo_riego >= tiempo_transcurrido):
-    return tiempo_supervivencia - (tiempo_transcurrido + tiempo_riego)
-  else:
-    return prioridad * ((tiempo_transcurrido + tiempo_riego) - tiempo_supervivencia)
-
-def calcular_costo_total(finca):
-  costo_total = 0
-  tiempo_trans = 0
-  for i in finca:
-    costo_total += calcular_costo_por_tablon(i, tiempo_trans)
-    tiempo_trans += i[1]
-  return costo_total
-
-
-def voraz(finca_entrada):
+def roV(finca_entrada):
   finca = finca_entrada.copy()
   costo_actual = calcular_costo_total(finca)
   #print("costo_actual",costo_actual)
@@ -85,7 +66,7 @@ def voraz(finca_entrada):
     return finca2
   return finca
 
-ruta_archivo = None
+
 
 
 
