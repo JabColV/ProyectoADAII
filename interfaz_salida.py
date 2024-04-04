@@ -9,6 +9,8 @@ import interfaz_entrada
 from generales import finca_string, finca
 
 ruta_archivo = None
+
+
 def generarSalida(finca):
     if interfaz_entrada.select_var.get() == 'Dinamico':
         programacion = dinamico.roPD(finca)
@@ -27,7 +29,7 @@ def generarSalida(finca):
 
     if not os.path.exists(carpeta_salida):
         os.makedirs(carpeta_salida)
-    
+
     # Ruta completa del archivo de salida
     global ruta_archivo
     ruta_archivo = os.path.join(carpeta_salida, nombre_archivo)
@@ -43,7 +45,8 @@ def generarSalida(finca):
             if interfaz_entrada.select_var.get() == 'dinamico':
                 finca[posicion] = []
             archivo.write(str(posicion) + '\n')
-        
+
+
 generarSalida(finca)
 ventana = tk.Tk()
 ventana.title("Optimizar un sistema de riego")
@@ -64,9 +67,17 @@ font_title = ("Times New Roman", 20, "bold")
 font_text = ("Times New Roman", 16, "bold", "italic")
 font_button = ("Times New Roman", 12, "bold")
 
+
 def mostrar_resultado():
     mensaje = f"Resultados obtenidos de {interfaz_entrada.select_var.get()}"
     label_bienvenida.config(text=mensaje)
+
+
+# Para reiniciar la aplicación
+def reiniciar():
+    ventana.destroy()
+    os.system('python main.py')
+
 
 # Cargar el contenido del archivo en el widget de texto
 def cargar_contenido(archivo, cuadro):
@@ -74,6 +85,7 @@ def cargar_contenido(archivo, cuadro):
         contenido = f.read()
         cuadro.delete('1.0', tk.END)
         cuadro.insert(tk.END, contenido)
+
 
 cuadro_info = tk.Canvas(ventana, width=400, height=50, bg="#7FBF50", highlightbackground="#7FBF50")
 cuadro_info.place(x=50, y=5, width=400, height=500)
@@ -89,6 +101,12 @@ label_salida = tk.Label(ventana, text="Salida", font=font_text, bg="#7FBF50")
 label_salida.place(x=50, y=260)
 text_widget_output = scrolledtext.ScrolledText(ventana, wrap=tk.WORD, font=("Arial", 12))
 text_widget_output.place(x=50, y=290, width=400, height=150)
+
+# Botón para reiniciar la aplicación
+boton_reiniciar = tk.Button(ventana, text="Reiniciar", font=font_button, command=reiniciar, relief="raised",
+                            bg="#0FA644",
+                            highlightbackground="#0FA644", activebackground="#0FA644")
+boton_reiniciar.place(x=250, y=475, anchor="center")
 
 mostrar_resultado()
 cargar_contenido("finca_escogida.txt", text_widget)
